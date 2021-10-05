@@ -1,0 +1,26 @@
+syntax='proto3';
+
+package cn.com.yujiangjun.myim.netty.proto;
+
+option java_outer_classname="MessageBuilder";
+
+
+message Message{
+  int32 myId=1;
+  string myName=2;
+  int32 friendId=3;
+  string friendName=4;
+  string content=5;
+  /**
+  1 文本，2 图片 3 表情 4.音频 5 视频
+   */
+  int32  msgType=6;
+  /**
+  1 发送方 2.接收方
+   */
+  int32 msgDirect=7;
+  /**
+  1 单聊 2 群聊
+   */
+  int32 chatType=8;
+}

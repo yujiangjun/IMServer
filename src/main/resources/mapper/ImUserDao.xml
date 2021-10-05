@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.yujiangjun.myim.rest.login.dao.ImUserDao">
+  <resultMap id="BaseResultMap" type="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="personal_sign" jdbcType="VARCHAR" property="personalSign" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="avtor" jdbcType="VARCHAR" property="avtor" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, nick_name, `password`, personal_sign, sex, birth_date, age, avtor
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from im_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserName" resultType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity">
+      select *
+      from im_user where user_name =#{userName} limit 1
+    </select>
+    <select id="getMyFriends" resultType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity">
+      select * from im_user where user_id in (select friend_id from im_user_friend where self_id=#{myUserId})
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from im_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity" useGeneratedKeys="true">
+    insert into im_user (user_name, nick_name, `password`, 
+      personal_sign, sex, birth_date, 
+      age, avtor)
+    values (#{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{personalSign,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthDate,jdbcType=TIMESTAMP}, 
+      #{age,jdbcType=INTEGER}, #{avtor,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity" useGeneratedKeys="true">
+    insert into im_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="personalSign != null">
+        personal_sign,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="avtor != null">
+        avtor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="personalSign != null">
+        #{personalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="avtor != null">
+        #{avtor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity">
+    update im_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="personalSign != null">
+        personal_sign = #{personalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="avtor != null">
+        avtor = #{avtor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.yujiangjun.myim.rest.login.entity.ImUserEntity">
+    update im_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      personal_sign = #{personalSign,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      age = #{age,jdbcType=INTEGER},
+      avtor = #{avtor,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
