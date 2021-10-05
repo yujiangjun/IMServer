@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.yujiangjun.myim.rest.mapper.UserChatRecordDao">
+  <resultMap id="BaseResultMap" type="cn.com.yujiangjun.myim.rest.bean.UserChatRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="friend_id" jdbcType="INTEGER" property="friendId" />
+    <result column="friend_name" jdbcType="VARCHAR" property="friendName" />
+    <result column="friend_avtor" jdbcType="VARCHAR" property="friendAvtor" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="chat_time" jdbcType="TIMESTAMP" property="chatTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, friend_id, friend_name, friend_avtor, content, chat_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_chat_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getMyChatRecord" resultType="cn.com.yujiangjun.myim.rest.bean.UserChatRecord">
+      select * from user_chat_record where user_id=#{myUserId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_chat_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteMyRecord">
+    delete from user_chat_record where user_id=#{userId} and id=#{recordId}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.com.yujiangjun.myim.rest.bean.UserChatRecord" useGeneratedKeys="true">
+    insert into user_chat_record (user_id, user_name, friend_id, 
+      friend_name, friend_avtor, content, 
+      chat_time)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{friendId,jdbcType=INTEGER}, 
+      #{friendName,jdbcType=VARCHAR}, #{friendAvtor,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{chatTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.com.yujiangjun.myim.rest.bean.UserChatRecord" useGeneratedKeys="true">
+    insert into user_chat_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="friendId != null">
+        friend_id,
+      </if>
+      <if test="friendName != null">
+        friend_name,
+      </if>
+      <if test="friendAvtor != null">
+        friend_avtor,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="chatTime != null">
+        chat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="friendId != null">
+        #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="friendName != null">
+        #{friendName,jdbcType=VARCHAR},
+      </if>
+      <if test="friendAvtor != null">
+        #{friendAvtor,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="chatTime != null">
+        #{chatTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.yujiangjun.myim.rest.bean.UserChatRecord">
+    update user_chat_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="friendId != null">
+        friend_id = #{friendId,jdbcType=INTEGER},
+      </if>
+      <if test="friendName != null">
+        friend_name = #{friendName,jdbcType=VARCHAR},
+      </if>
+      <if test="friendAvtor != null">
+        friend_avtor = #{friendAvtor,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="chatTime != null">
+        chat_time = #{chatTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.yujiangjun.myim.rest.bean.UserChatRecord">
+    update user_chat_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      friend_id = #{friendId,jdbcType=INTEGER},
+      friend_name = #{friendName,jdbcType=VARCHAR},
+      friend_avtor = #{friendAvtor,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      chat_time = #{chatTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
